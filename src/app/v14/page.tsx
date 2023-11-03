@@ -72,7 +72,7 @@ export default function Home() {
 
   function gotoState(array: boolean[]) {
     const currentState = selectToInt(array)
-    router.push('/v14?state=' + currentState)
+    router.push('/v14?state=' + currentState, { scroll: false })
   }
 
   function toggle(i: number) {
@@ -95,7 +95,7 @@ export default function Home() {
 
   return (
     <main className="container">
-      <div style={{width:'100vw', height:'100vh',background:'rgb(33,37,41)', position:'absolute', top:0, left:0}} className="d-none FOUC"></div>
+      <div style={{ width: '100vw', height: '100vh', background: 'rgb(33,37,41)', position: 'absolute', top: 0, left: 0 }} className="d-none FOUC"></div>
       <Title amount={parseFloat(checkeds.reduce((a, c, i) => a + c * (modules[i].type === 'Major' ? 1 : 0.5), 0))} />
       {modules.map((module, i) =>
         <ModuleItem key={`mod${i}`}
