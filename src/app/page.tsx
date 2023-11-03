@@ -60,7 +60,7 @@ function intToSelect(arraySize: number, state: number) {
 export default function Home() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const urlState = parseInt(searchParams.get('state') ?? '-1')
+  const urlState = parseInt(searchParams.get('state') ?? '0')
   const [checkeds, setChecks] = useState(defaultSelection())
 
   // url triggers loading state from url
