@@ -67,7 +67,6 @@ export default function Home() {
   useEffect(() => {
     const currentState = selectToInt(checkeds)
     if (urlState == currentState) return; // prevent infinite loop
-    console.log('load state', urlState, currentState)
     setChecks(intToSelect(modules.length, urlState))
   }, [urlState])
 
