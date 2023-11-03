@@ -1,95 +1,120 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client'
+import type { Module } from './types'
+import { modules } from './data'
+import { ChangeEventHandler, MouseEventHandler, useEffect, useId, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+
+
+function ModuleItem({ module, checked, onChanged, onCategoryClick }
+  : { module: Module, checked: boolean, onChanged: ChangeEventHandler<HTMLInputElement>, onCategoryClick: MouseEventHandler<HTMLSpanElement> }) {
+  const elementId = useId();
+  return (
+    <div className="form-check">
+      <input className="form-check-input" type="checkbox" value={module.type === 'Major' ? 1 : .5} id={elementId} onChange={onChanged} checked={checked} />
+      <span className={`badge bg-${module.type === 'Major' ? 'primary' : 'secondary'}`} onClick={onCategoryClick}>{module.category}</span>&nbsp;
+      <label className="form-check-label" htmlFor={elementId}>
+        {module.name}
+      </label>
+    </div>
+  )
+}
+
+function Title({ amount }: { amount: number }) {
+  const textColor = amount < 7 ? 'text-danger' : amount <= 9.5 ? 'text-success' : 'text-warning'
+  return (
+    <div className="row">
+      <h1>ft_transcendence v14</h1>
+      <p className={textColor}>{amount} major modules equivalent selected.&nbsp;
+        {amount < 7 && <>{7 - amount} more needed for 100% project completion.</>}
+        {(amount >= 7 && amount <= 9.5) && <>{100 + (amount - 7) * 10}% project completion.</>}
+        {amount > 9.5 && <>125% with {amount - 9.5} modules extra</>}
+      </p>
+    </div>
+  )
+}
+
+function defaultSelection(checked = false) {
+  return new Array(modules.length).fill(checked)
+}
+
+function selectToInt(array: boolean[]) {
+  let sum = 0;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i]) {
+      sum += 2 ** i;
+    }
+  }
+  return sum;
+}
+
+function intToSelect(arraySize: number, state: number) {
+  const array = new Array(arraySize).fill(false)
+  for (let i = 0; i < array.length; i++) {
+    if (state & 2 ** i) {
+      array[i] = true;
+    }
+  }
+  return array;
+}
 
 export default function Home() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const urlState = parseInt(searchParams.get('state') ?? '-1')
+  const [checkeds, setChecks] = useState(defaultSelection())
+
+  // url triggers loading state from url
+  useEffect(() => {
+    const currentState = selectToInt(checkeds)
+    if (urlState == currentState) return; // prevent infinite loop
+    console.log('load state', urlState, currentState)
+    setChecks(intToSelect(modules.length, urlState))
+  }, [urlState])
+
+  function gotoState(array: boolean[]) {
+    const currentState = selectToInt(array)
+    router.push('/?state=' + currentState)
+  }
+
+  function toggle(i: number) {
+    const newChecks = [...checkeds]
+    newChecks[i] = !newChecks[i]
+    gotoState(newChecks)
+  }
+
+  function toggleCategory(index: number) {
+    const newChecks = [...checkeds]
+    const selected = !newChecks[index]
+    const category = modules[index].category
+    for (let i = 0; i < modules.length; i++) {
+      if (modules[i].category === category) {
+        newChecks[i] = selected
+      }
+    }
+    gotoState(newChecks)
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    <main className="container">
+      <Title amount={parseFloat(checkeds.reduce((a, c, i) => a + c * (modules[i].type === 'Major' ? 1 : 0.5), 0))} />
+      {modules.map((module, i) =>
+        <ModuleItem key={`mod${i}`}
+          module={module}
+          checked={checkeds[i]}
+          onChanged={_ => toggle(i)}
+          onCategoryClick={_ => toggleCategory(i)}
         />
-      </div>
+      )}
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+      {checkeds.some(x => x) &&
+        <p><a href="#" role="button" onClick={e => { e.preventDefault(); gotoState(defaultSelection()); }}>Reset Selection</a></p>
+      }
+      {!checkeds.some(x => x) &&
+        <p><a href="#" role="button" onClick={e => { e.preventDefault(); gotoState(defaultSelection(true)); }}>Select All</a></p>
+      }
+      <p>* Two <span className="badge bg-secondary">Minor</span> Modules are equivalent to one <span className="badge bg-primary">Major</span> Module.
+      </p>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
   )
 }
