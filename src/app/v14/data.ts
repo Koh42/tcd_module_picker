@@ -1,4 +1,4 @@
-import { Module, ModuleCategory, ModuleType } from "./types";
+import { Module, ModuleCategory, ModuleType } from "../types";
 
 function m(category: ModuleCategory, type: ModuleType, name: string, description: string = '', depends: Module[] = []): Module {
     return { category, name, description, type, depends }
