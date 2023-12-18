@@ -30,6 +30,6 @@ export const modules: Module[] = [
     m('Accessibility', 'Minor', 'Multiple language supports'),
     m('Accessibility', 'Minor', 'Add accessibility for Visually Impaired Users'),
     m('Accessibility', 'Minor', 'Server-Side Rendering (SSR) Integration'),
-    m('Object oriented', 'Major', 'Replacing Basic Pong with Server-Side Pong and Implementing an API'),
-    m('Object oriented', 'Major', 'Enabling Pong Gameplay via CLI against Web Users with API Integration'),
+    m('Server-Side Pong', 'Major', 'Replacing Basic Pong with Server-Side Pong and Implementing an API'),
+    m('Server-Side Pong', 'Major', 'Enabling Pong Gameplay via CLI against Web Users with API Integration'),
 ]
