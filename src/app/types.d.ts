@@ -1,6 +1,7 @@
 
-export type ModuleCategory = 'Web' | 'User Management' | 'Gameplay & UX' | 'IA-Algo' |
-    'Cybersecurity' | 'Devops' | 'Graphics' | 'Accessibility' | 'Object oriented'
+export type ModuleCategory = 'Web' | 'User Management' | 'Gameplay & UX' | 'AI-Algo' |
+    'Cybersecurity' | 'Devops' | 'Graphics' | 'Accessibility' | 'Object oriented' | 
+    'Server-Side Pong'
 
 export type ModuleType = 'Major' | 'Minor'
 
