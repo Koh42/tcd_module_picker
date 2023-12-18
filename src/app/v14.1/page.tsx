@@ -4,6 +4,7 @@ import { modules } from './data'
 import { ChangeEventHandler, MouseEventHandler, useEffect, useId, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
+const VER=14.1
 
 function ModuleItem({ module, checked, onChanged, onCategoryClick }
   : { module: Module, checked: boolean, onChanged: ChangeEventHandler<HTMLInputElement>, onCategoryClick: MouseEventHandler<HTMLSpanElement> }) {
@@ -23,7 +24,7 @@ function Title({ amount }: { amount: number }) {
   const textColor = amount < 7 ? 'text-danger' : amount <= 9.5 ? 'text-success' : 'text-warning'
   return (
     <div className="row">
-      <h1>ft_transcendence v14.1</h1>
+      <h1>ft_transcendence v{VER}</h1>
       <p className={textColor}>{amount} major modules equivalent selected.&nbsp;
         {amount < 7 && <>{7 - amount} more needed for 100% project completion.</>}
         {(amount >= 7 && amount <= 9.5) && <>{100 + (amount - 7) * 10}% project completion.</>}
@@ -72,7 +73,7 @@ export default function Home() {
 
   function gotoState(array: boolean[]) {
     const currentState = selectToInt(array)
-    router.push('/v14?state=' + currentState, { scroll: false })
+    router.push(`/v${VER}?state=${currentState}`, { scroll: false })
   }
 
   function toggle(i: number) {
