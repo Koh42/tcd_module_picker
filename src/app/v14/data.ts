@@ -18,7 +18,7 @@ export const modules: Module[] = [
     m('Gameplay & UX', 'Major', 'Live chat'),
     m('AI-Algo', 'Major', 'Introduce an AI Opponent'),
     m('AI-Algo', 'Minor', 'User and Game Stats Dashboards'),
-    m('Cybersecurity', 'Major', 'Implement WAF/ModSecurity with Hardened Configuration and HashiCorp Vault for Secrects Management'),
+    m('Cybersecurity', 'Major', 'Implement WAF/ModSecurity with Hardened Configuration and HashiCorp Vault for Secrets Management'),
     m('Cybersecurity', 'Minor', 'GDPR Compliance Options with User Anonymization, Local Data Management, and Account Deletion'),
     m('Cybersecurity', 'Major', 'Implement Two-Factor Authentication (2FA) and JWT'),
     m('Devops', 'Major', 'Infrastructure Setup for Log Management'),
