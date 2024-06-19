@@ -24,7 +24,7 @@ function Title({ amount }: { amount: number }) {
   const textColor = amount < 7 ? 'text-danger' : amount <= 9.5 ? 'text-success' : 'text-warning'
   return (
     <div className="row">
-      <h1>ft_transcendence v{VER}</h1>
+      <h1>ft_transcendence v14.1, v14.2</h1>
       <p className={textColor}>{amount} major modules equivalent selected.&nbsp;
         {amount < 7 && <>{7 - amount} more needed for 100% project completion.</>}
         {(amount >= 7 && amount <= 9.5) && <>{100 + (amount - 7) * 10}% project completion.</>}
