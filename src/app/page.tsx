@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
 
 export default function Page() {
-  redirect('/v14.1')
+  redirect('/v18')
 }
