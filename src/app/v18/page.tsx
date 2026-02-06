@@ -96,8 +96,8 @@ export default function Home() {
       <div style={{ width: '100vw', height: '100vh', background: 'rgb(33,37,41)', position: 'absolute', top: 0, left: 0 }} className="d-none FOUC"></div>
       <div className="row">
         <h1>ft_transcendence v18</h1>
-        <Title amount={parseFloat(checkeds.reduce((a, c, i) => a + c * (modules[i].type === 'Major' ? 1 : 0.5), 0))} />
       </div>
+      <Title amount={parseFloat(checkeds.reduce((a, c, i) => a + c * (modules[i].type === 'Major' ? 1 : 0.5), 0))} />
       {modules.map((module, i) =>
         <ModuleItem key={`mod${i}`}
           module={module}
