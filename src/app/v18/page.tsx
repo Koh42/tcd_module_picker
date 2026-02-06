@@ -23,7 +23,7 @@ function ModuleItem({ module, checked, onChanged, onCategoryClick }
 function Title({ amount }: { amount: number }) {
   const textColor = amount < 7 ? 'text-danger' : amount <= 9.5 ? 'text-success' : 'text-warning'
   return (
-      <p className={textColor}>{amount} major modules equivalent selected.&nbsp;
+      <p className={textColor} style={{ position: 'sticky', top: '0', background: 'rgb(33,37,41)' }}>{amount} major modules equivalent selected.&nbsp;
         {amount < 7 && <>{7 - amount} more needed for 100% project completion.</>}
         {(amount >= 7 && amount <= 9.5) && <>{100 + (amount - 7) * 10}% project completion.</>}
         {amount > 9.5 && <>125% with {amount - 9.5} modules extra</>}
